@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {children}
+          <SpeedInsights />
         </main>
       </body>
     </html>
