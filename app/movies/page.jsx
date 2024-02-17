@@ -6,13 +6,16 @@ import Link from "next/link";
 
 async function getMovies(page) {
   try {
-    const res = await fetch(`/api/v1/movies?page=${page ?? 1}&limit=${40}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetch(
+      `https://next-flix-tau.vercel.app/api/v1/movies?page=${page ?? 1}&limit=${40}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-cache",
       },
-      cache: "no-cache",
-    });
+    );
 
     if (!res.ok) {
       throw Error("Failed to fetch movies");
