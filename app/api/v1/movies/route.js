@@ -2,6 +2,8 @@ import { connectDB } from "@/lib/connectDB";
 import { sendResponse } from "@/lib/helpers";
 import Movie from "@/models/movieModel";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request, response) {
   try {
     await connectDB();
