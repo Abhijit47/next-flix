@@ -6,16 +6,13 @@ import Link from "next/link";
 
 async function getMovies(page) {
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/v1/movies?page=${page ?? 1}&limit=${40}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-cache",
+    const res = await fetch(`/api/v1/movies?page=${page ?? 1}&limit=${40}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      cache: "no-cache",
+    });
 
     if (!res.ok) {
       throw Error("Failed to fetch movies");
