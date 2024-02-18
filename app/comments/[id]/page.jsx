@@ -4,9 +4,11 @@ import {
   HeroiconsOutlinePaperClip,
 } from "@/assets/icons";
 
+const API_URL = process.env.API_URL;
+
 async function getComment(id) {
   try {
-    const res = await fetch(`http://localhost:3000/api/v1/comments/${id}`, {
+    const res = await fetch(`${API_URL}/comments/${id}`, {
       cache: "default",
     });
 

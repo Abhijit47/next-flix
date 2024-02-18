@@ -4,9 +4,11 @@ import { calcMovieRuntime } from "@/lib/helpers";
 import Link from "next/link";
 // import GaugeChart from "react-gauge-chart";
 
+const API_URL = process.env.API_URL;
+
 async function getMovie(id) {
   try {
-    const res = await fetch(`http://localhost:3000/api/v1/movies/${id}`, {
+    const res = await fetch(`${API_URL}/movies/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
