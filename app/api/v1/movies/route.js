@@ -33,8 +33,9 @@ export async function GET(request, response) {
     const totalPage = Math.ceil(totalRecords / limitPerPage);
 
     return sendResponse(
-      200,
       "success",
+      200,
+      "Movies retrieved successfully",
       movies,
       currentPage,
       currentResult,
@@ -42,6 +43,7 @@ export async function GET(request, response) {
       totalRecords,
     );
   } catch (err) {
-    return sendResponse(500, "Internal server error");
+    console.log(err.message);
+    return sendResponse("fail", 500, "Internal server error");
   }
 }

@@ -32,8 +32,9 @@ export async function GET(request, response) {
     const totalPage = Math.ceil(totalCommentCount / limitPerPage);
 
     return sendResponse(
-      200,
       "success",
+      200,
+      "Comments retrived successfully",
       comments,
       currentPage,
       currentResult,
@@ -41,6 +42,7 @@ export async function GET(request, response) {
       totalCommentCount,
     );
   } catch (err) {
-    return sendResponse(500, "Internal server error");
+    console.log(err.message);
+    return sendResponse("fail", 500, "Internal Server error");
   }
 }

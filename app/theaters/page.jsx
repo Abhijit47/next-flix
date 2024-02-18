@@ -1,18 +1,17 @@
 import Paginate from "@/components/Paginate";
 import TheaterContainer from "@/components/TheaterContainer";
 
+const API_URL = process.env.API_URL;
+
 async function getTheaters(page) {
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/v1/theaters?page=${page ?? 1}&limit=12`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-cache",
+    const res = await fetch(`${API_URL}/theaters?page=${page ?? 1}&limit=12`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      cache: "no-cache",
+    });
 
     if (!res.ok) {
       throw new Error("Failed to fetch theaters");

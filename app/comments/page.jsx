@@ -1,18 +1,17 @@
 import Paginate from "@/components/Paginate";
 import Link from "next/link";
 
+const API_URL = process.env.API_URL;
+
 async function getComments(page) {
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/v1/comments?page=${page ?? 1}&limit=20`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-cache",
+    const res = await fetch(`${API_URL}/comments?page=${page ?? 1}&limit=20`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      cache: "no-cache",
+    });
 
     if (!res.ok) {
       throw new Error("Failed to fetch comments");
@@ -70,7 +69,7 @@ export default async function CommentsPage({ searchParams }) {
           </div>
 
           {/* comments */}
-          <div className="mt-6 grid gap-16 pt-10 lg:grid-cols-2 lg:gap-x-5 lg:gap-y-12">
+          <div className="my-12 grid gap-16 pt-10 lg:grid-cols-2 lg:gap-x-5 lg:gap-y-12">
             {data?.map((comment) => (
               <div
                 key={comment?._id}

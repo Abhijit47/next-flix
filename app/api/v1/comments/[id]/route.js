@@ -2,14 +2,13 @@ import { connectDB } from "@/lib/connectDB";
 import { sendResponse } from "@/lib/helpers";
 import Comment from "@/models/commentModel";
 import Movie from "@/models/movieModel";
-import { sendError, sendStatusCode } from "next/dist/server/api-utils";
 
 export async function GET(req, res) {
   try {
     const { id } = res.params;
 
-    if (!id) {
-      return sendResponse(404, "No comment found on this id");
+    if (!id || id.length !== 24) {
+      return sendResponse("success", 400, "Invalid request");
     }
 
     await connectDB();
@@ -18,19 +17,12 @@ export async function GET(req, res) {
 
     const movie = await Movie.findById({ _id: comment.movie_id }).lean();
 
-    return new Response(
-      JSON.stringify(
-        {
-          status: 200,
-          message: "success",
-          comment: comment,
-          movie: movie,
-        },
-        "",
-        2,
-      ),
-    );
+    return sendResponse("success", 200, "Comment retrieved successfully", {
+      comment,
+      movie,
+    });
   } catch (err) {
-    return sendResponse(500, err.message);
+    console.log(err.message);
+    return sendResponse("fail", 500, "Internal server error");
   }
 }

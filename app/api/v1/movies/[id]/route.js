@@ -7,14 +7,15 @@ export async function GET(request, response) {
     await connectDB();
     const { id } = response.params;
 
-    if (!id) {
-      return sendResponse(404, "Movie not found with this id");
+    if (!id || id.length < 23) {
+      return sendResponse("fail", 400, "Invalid request");
     }
 
     const movie = await Movie.findById({ _id: response.params.id }).lean();
 
-    return sendResponse(200, "success", movie);
+    return sendResponse("success", 200, "Movie retrieved successfully", movie);
   } catch (err) {
-    return sendResponse(500, "Internal server error");
+    console.log(err.message);
+    return sendResponse("fail", 500, "Internal server error");
   }
 }

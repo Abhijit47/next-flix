@@ -4,18 +4,17 @@ import Paginate from "@/components/Paginate";
 import { calcMovieRuntime } from "@/lib/helpers";
 import Link from "next/link";
 
+const API_URL = process.env.API_URL;
+
 async function getMovies(page) {
   try {
-    const res = await fetch(
-      `https://next-flix-tau.vercel.app/api/v1/movies?page=${page ?? 1}&limit=${40}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-cache",
+    const res = await fetch(`${API_URL}/movies?page=${page ?? 1}&limit=${40}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      cache: "no-cache",
+    });
 
     if (!res.ok) {
       throw Error("Failed to fetch movies");
