@@ -3,6 +3,7 @@ import MovieCover from "@/components/MovieCover";
 import Paginate from "@/components/Paginate";
 import { calcMovieRuntime } from "@/lib/helpers";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const API_URL = process.env.API_URL;
 
@@ -93,25 +94,9 @@ export default async function MoviesPage({ searchParams }) {
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-10 xs:grid-cols-1 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-3 md:gap-y-4 lg:grid-cols-4 lg:gap-x-8">
-            {data?.map((movie) => (
-              <div key={movie?._id} className="group relative">
-                <div className="h-full w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:h-72 xl:h-80">
-                  <MovieCover poster={movie?.poster} title={movie?.title} />
-                </div>
-                <h3 className="mt-4 text-sm text-gray-700">
-                  <Link href={`movies/${movie?._id}`}>
-                    <span className="absolute inset-0 truncate" />
-                    {movie?.title}
-                  </Link>
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Runtime: {calcMovieRuntime(movie?.runtime)}
-                </p>
-                <p className="mt-1 text-sm font-medium text-gray-900">
-                  Released: {movie?.year}
-                </p>
-              </div>
-            ))}
+            <Suspense fallback={<div>Loading...</div>}>
+              <MovieCard data={data} />
+            </Suspense>
           </div>
 
           <GoBackButton />
@@ -125,5 +110,31 @@ export default async function MoviesPage({ searchParams }) {
         </div>
       </div>
     </section>
+  );
+}
+
+function MovieCard({ data }) {
+  return (
+    <>
+      {data?.map((movie) => (
+        <div key={movie?._id} className="group relative">
+          <div className="h-full w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:h-72 xl:h-80">
+            <MovieCover poster={movie?.poster} title={movie?.title} />
+          </div>
+          <h3 className="mt-4 text-sm text-gray-700">
+            <Link href={`movies/${movie?._id}`}>
+              <span className="absolute inset-0 truncate" />
+              {movie?.title}
+            </Link>
+          </h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Runtime: {calcMovieRuntime(movie?.runtime)}
+          </p>
+          <p className="mt-1 text-sm font-medium text-gray-900">
+            Released: {movie?.year}
+          </p>
+        </div>
+      ))}
+    </>
   );
 }
