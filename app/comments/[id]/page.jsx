@@ -9,7 +9,7 @@ const API_URL = process.env.API_URL;
 async function getComment(id) {
   try {
     const res = await fetch(`${API_URL}/comments/${id}`, {
-      cache: "default",
+      cache: "no-cache",
     });
 
     if (!res.ok) {
@@ -23,7 +23,9 @@ async function getComment(id) {
 }
 
 export default async function CommentPage({ params }) {
-  const { comment, movie } = await getComment(params.id);
+  const { status, message, data } = await getComment(params.id);
+
+  const { comment, movie } = data;
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
