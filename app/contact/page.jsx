@@ -15,8 +15,9 @@ export default function ContactUsPage() {
                 Get in touch
               </h2>
               <p className="mt-3 text-lg leading-6 text-gray-500">
-                "We value your feedback and are here to assist you. Please feel
-                free to reach out to us with any questions or concerns."
+                &ldquo;We value your feedback and are here to assist you. Please
+                feel free to reach out to us with any questions or
+                concerns.&rdquo;
               </p>
               <dl className="mt-8 text-base text-gray-500">
                 <div>

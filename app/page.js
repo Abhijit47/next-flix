@@ -13,14 +13,14 @@ export default function Home() {
             Welcome to NextFlix
           </span>
           <span className="block xs:text-3xl lg:text-4xl">
-            "Your Ultimate Entertainment Companion"
+            &ldquo;Your Ultimate Entertainment Companion&rdquo;
           </span>
         </h1>
         <p className="self-center text-center font-semibold leading-6 text-stone-700 xs:text-base sm:text-lg lg:text-xl">
-          "At NextFlix, we bring you a world of entertainment at your
+          &ldquo;At NextFlix, we bring you a world of entertainment at your
           fingertips. Explore a vast library of movies, TV shows, and more, all
           tailored to your preferences. Start streaming your favorites today and
-          immerse yourself in endless entertainment possibilities."
+          immerse yourself in endless entertainment possibilities.&rdquo;
         </p>
 
         <div className="self-center">
