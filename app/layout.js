@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,11 +24,17 @@ export default function RootLayout({ children }) {
         // fetchPriority="high"
       />
       <body className={`${inter.className} relative`}>
-        <Navbar />
-        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {children}
-          <SpeedInsights />
-        </main>
+        <ClerkProvider
+          appearance={{
+            baseTheme: "",
+          }}
+        >
+          <Navbar />
+          <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            {children}
+            {/* <SpeedInsights /> */}
+          </main>
+        </ClerkProvider>
       </body>
     </html>
   );

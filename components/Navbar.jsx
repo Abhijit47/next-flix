@@ -1,20 +1,28 @@
 "use client";
 
 import {
-  HeroiconsBell,
   HeroiconsSolidSearch,
   HeroiconsOutlineMenuAlt2,
   HeroiconsOutlineX,
 } from "@/assets/icons";
 
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
+
+import { Disclosure } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { classNames } from "@/lib/helpers";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import Button from "./Button";
+
 export default function Navbar() {
+  const { isSignedIn, user, isLoaded } = useUser();
   const pathname = usePathname();
 
   return (
@@ -84,7 +92,7 @@ export default function Navbar() {
                         Comments
                       </Link>
                       <Link
-                        href="#"
+                        href="/contact"
                         className={classNames(
                           pathname === "#"
                             ? "bg-gray-900 text-white"
@@ -92,7 +100,7 @@ export default function Navbar() {
                           "rounded-md px-3 py-2 text-sm font-medium",
                         )}
                       >
-                        Calendar
+                        Contact
                       </Link>
                     </div>
                   </div>
@@ -138,81 +146,23 @@ export default function Navbar() {
                 </div>
                 <div className="hidden lg:ml-4 lg:block">
                   <div className="flex items-center">
-                    <button
-                      type="button"
-                      className="flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                    >
-                      <span className="sr-only">View notifications</span>
-                      <HeroiconsBell className="h-6 w-6" aria-hidden="true" />
-                    </button>
-
-                    {/* Profile dropdown */}
-                    <Menu as="div" className="relative ml-4 flex-shrink-0">
-                      <div>
-                        <Menu.Button className="flex rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                          <span className="sr-only">Open user menu</span>
-                          <Image
-                            className="h-8 w-8 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt="user-avatar"
-                            height={256}
-                            width={256}
-                            priority
-                          />
-                        </Menu.Button>
-                      </div>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
+                    <SignedIn>
+                      {/* Mount the UserButton component */}
+                      <UserButton afterSignOutUrl="/" />
+                    </SignedIn>
+                    <SignedOut>
+                      {/* Signed out users get sign in button */}
+                      <SignInButton
+                        afterSignInUrl="/"
+                        redirectUrl="/sign-in"
+                        mode="modal"
                       >
-                        <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                href="#"
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                )}
-                              >
-                                Your Profile
-                              </Link>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                href="#"
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                )}
-                              >
-                                Settings
-                              </Link>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                href="#"
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                )}
-                              >
-                                Sign out
-                              </Link>
-                            )}
-                          </Menu.Item>
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
+                        {/* <Button>Sign in to get access</Button> */}
+                        <button className="rounded-md bg-blue-800 px-4 py-2 text-sm text-white">
+                          Sign in
+                        </button>
+                      </SignInButton>
+                    </SignedOut>
                   </div>
                 </div>
               </div>
@@ -244,62 +194,45 @@ export default function Navbar() {
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
-                  href="#"
+                  href="/contact"
                   className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
-                  Calendar
+                  Contact
                 </Disclosure.Button>
               </div>
               <div className="border-t border-gray-700 pb-3 pt-4">
-                <div className="flex items-center px-5">
-                  <div className="flex-shrink-0">
-                    <Image
-                      className="h-10 w-10 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt="user-avatar"
-                      height={256}
-                      width={256}
-                      priority
-                    />
-                  </div>
-                  <div className="ml-3">
-                    <div className="text-base font-medium text-white">
-                      Tom Cook
+                <div className="flex items-center gap-x-4 px-5">
+                  <SignedIn>
+                    {/* Mount the UserButton component */}
+                    <UserButton afterSignOutUrl="/" />
+                  </SignedIn>
+                  <SignedOut>
+                    {/* Signed out users get sign in button */}
+                    <SignInButton
+                      afterSignInUrl="/movies"
+                      redirectUrl="/sign-in"
+                      mode="modal"
+                    >
+                      <button className="rounded-md bg-blue-800 px-4 py-2 text-xs text-white">
+                        Sign in
+                      </button>
+                    </SignInButton>
+                  </SignedOut>
+
+                  {isSignedIn && (
+                    <div>
+                      <span className="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-sm font-medium text-indigo-800">
+                        <svg
+                          className="-ml-0.5 mr-1.5 h-2 w-2 text-indigo-400"
+                          fill="currentColor"
+                          viewBox="0 0 8 8"
+                        >
+                          <circle cx={4} cy={4} r={3} />
+                        </svg>
+                        {user?.firstName}
+                      </span>
                     </div>
-                    <div className="text-sm font-medium text-gray-400">
-                      tom@example.com
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  >
-                    <span className="sr-only">View notifications</span>
-                    <HeroiconsBell className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
-                <div className="mt-3 space-y-1 px-2">
-                  <Disclosure.Button
-                    as="a"
-                    href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                  >
-                    Your Profile
-                  </Disclosure.Button>
-                  <Disclosure.Button
-                    as="a"
-                    href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                  >
-                    Settings
-                  </Disclosure.Button>
-                  <Disclosure.Button
-                    as="a"
-                    href="#"
-                    className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                  >
-                    Sign out
-                  </Disclosure.Button>
+                  )}
                 </div>
               </div>
             </Disclosure.Panel>
